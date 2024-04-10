@@ -13,6 +13,11 @@ configure_file(app_version.h.in ${CMAKE_BINARY_DIR}/app/include/app_version.h)
 target_include_directories(app PRIVATE ${CMAKE_BINARY_DIR}/app/include src)
 
 # we need to be able to include generated header files
+set(NANOPB_OPTIONS "-I${CMAKE_SOURCE_DIR}")
+nanopb_generate_cpp(proto_sources proto_headers RELPATH .
+    api/api.proto
+)
+
 zephyr_library_include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 target_sources(app PRIVATE ${proto_sources} src/main.c)
